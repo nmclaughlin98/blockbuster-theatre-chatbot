@@ -1,9 +1,8 @@
+import type * as lex from 'aws-cdk-lib/aws-lex';
 import type { SlotDefinition } from './SlotDefinition';
 
-export interface IntentDefinition {
-  readonly name: string;
+export interface IntentDefinition extends lex.CfnBot.IntentProperty {
   readonly description: string;
-  readonly sampleUtterances: readonly string[];
-  readonly slots?: readonly SlotDefinition[];
-  readonly parentIntentSignature?: string;
+  readonly sampleUtterances?: lex.CfnBot.SampleUtteranceProperty[];
+  readonly slots?: SlotDefinition[];
 }

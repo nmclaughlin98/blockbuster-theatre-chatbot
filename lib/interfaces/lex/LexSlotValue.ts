@@ -1,4 +1,3 @@
-export interface LexSlotValue {
-  readonly interpretedValue?: string;
-  readonly originalValue?: string;
-}
+import type { Value as AwsLexSlotValue } from '@aws-sdk/client-lex-runtime-v2';
+
+export interface LexSlotValue extends AwsLexSlotValue {}

@@ -4,9 +4,11 @@ export const browseUpcomingShowingsIntent: IntentDefinition = {
   name: 'BrowseUpcomingShowings',
   description: 'Browse upcoming movies and showings.',
   sampleUtterances: [
-    'What movies are showing?',
-    'Show me upcoming showtimes',
-    'What is playing at the theatre?',
-    'What can I watch?',
+    { utterance: 'What movies are showing?' },
+    { utterance: 'Show me upcoming showtimes' },
+    { utterance: 'What is playing at the theatre?' },
+    { utterance: 'What can I watch?' },
+    { utterance: 'Show upcoming movies' },
+    { utterance: 'List upcoming showings' },
   ],
 };

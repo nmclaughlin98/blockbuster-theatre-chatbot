@@ -57,7 +57,7 @@ The `en_GB` Lex locale includes these intents:
 
 The fulfillment Lambda reads the public, paginated `GET /movies` endpoint from the theatre backend and uses its movie catalogue and weekday showtime schedules to answer browsing and search intents. Upcoming searches cover the next seven days; date-based searches map the requested calendar date to the backend's weekday schedule. The `THEATRE_BACKEND_API_URL` Lambda environment variable defaults to `https://api.blockbuster-theatre.nml-applications.com`.
 
-The `MovieName` slot uses `AMAZON.AlphaNumeric` because Lex does not allow `AMAZON.FreeFormInput` in intent sample utterances.
+Intent examples use the Lex V2 `SampleUtterance` object shape, and each required slot has a prompt plus sample responses in `valueElicitationSetting.sampleUtterances`. `MovieName` uses `AMAZON.AlphaNumeric` because Lex does not allow `AMAZON.FreeFormInput` in intent sample utterances. Its example titles help slot recognition only; they do not limit searches to a fixed catalogue, which is fetched from the backend.
 
 Only the login-dependent `ViewMyBookings` intent remains a placeholder. It will need customer authentication and a backend booking lookup endpoint before it can return personal booking data.
 
@@ -66,8 +66,6 @@ Only the login-dependent `ViewMyBookings` intent remains a placeholder. It will 
 The stack outputs the Lex bot ID, alias ID, alias ARN, and locale ID. A text client can send user messages to the Lex V2 `RecognizeText` runtime operation using the deployed alias. Do not put long-lived AWS credentials in browser code; connect the website through an authenticated backend/API or a suitably scoped identity role that permits only the required Lex runtime operation.
 
 The Lex bot is configured as not child-directed (`childDirected: false`). Review and change this setting before deployment if the website is directed at children under 13 or is otherwise subject to COPPA.
-
-The Lex bot uses CloudFormation `Retain` policies for deletion and replacement so a failed deployment can leave it available for diagnosis. Retained bots may need to be deleted manually after debugging.
 
 The Lex service role trusts the `lexv2.amazonaws.com` service principal so Lex can assume it. Its CloudWatch Logs permissions are limited to log groups under `/aws/lex/`; it does not use an unverified AWS-managed Lex policy.
 

@@ -5,9 +5,11 @@ export const findShowtimesByDateIntent: IntentDefinition = {
   name: 'FindShowtimesByDate',
   description: 'Find movies and showtimes for a date.',
   sampleUtterances: [
-    'What movies are showing on {ShowingDate}?',
-    'Showtimes for {ShowingDate}',
-    'What can I watch on {ShowingDate}?',
+    { utterance: 'What movies are showing on {ShowingDate}?' },
+    { utterance: 'Showtimes for {ShowingDate}' },
+    { utterance: 'What can I watch on {ShowingDate}?' },
+    { utterance: 'What is showing on {ShowingDate}?' },
+    { utterance: 'Find showtimes for {ShowingDate}' },
   ],
   slots: [showingDateSlot],
 };

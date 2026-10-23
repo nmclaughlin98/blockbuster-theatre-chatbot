@@ -53,7 +53,14 @@ type IntentHandlerScenario = {
 const intentHandlerScenarios: IntentHandlerScenario[] = [
   {
     intentName: 'FindShowtimesByMovie',
-    slots: { MovieName: { value: { originalValue: 'The Example Movie' } } },
+    slots: {
+      MovieName: {
+        value: {
+          originalValue: 'The Example Movie',
+          interpretedValue: undefined,
+        },
+      },
+    },
     expectedMessage: 'Showtimes for The Example Movie in the next 7 days:',
   },
   {
@@ -77,7 +84,12 @@ const intentHandlerScenarios: IntentHandlerScenario[] = [
   {
     intentName: 'FindShowtimesByMovieAndDate',
     slots: {
-      MovieName: { value: { originalValue: 'The Example Movie' } },
+      MovieName: {
+        value: {
+          originalValue: 'The Example Movie',
+          interpretedValue: undefined,
+        },
+      },
       ShowingDate: {
         value: { originalValue: 'tomorrow', interpretedValue: '2026-10-24' },
       },
@@ -127,7 +139,12 @@ describe('Lex fulfillment handler', () => {
 
   it('includes requested movie, date, and time values in the response', async () => {
     const event = eventFor('FindShowtimesByMovieDateAndTime', {
-      MovieName: { value: { originalValue: 'The Example Movie' } },
+      MovieName: {
+        value: {
+          originalValue: 'The Example Movie',
+          interpretedValue: undefined,
+        },
+      },
       ShowingDate: {
         value: { originalValue: 'tomorrow', interpretedValue: '2026-10-24' },
       },

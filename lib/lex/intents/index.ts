@@ -1,6 +1,5 @@
 import { aws_lex as lex } from 'aws-cdk-lib';
 import type { IntentDefinition } from '../../interfaces/lex/IntentDefinition';
-import { toCfnSlot } from '../slots';
 import { browseUpcomingShowingsIntent } from './BrowseUpcomingShowingsIntent';
 import { fallbackIntent } from './FallbackIntent';
 import { findShowtimesByDateIntent } from './FindShowtimesByDateIntent';
@@ -33,16 +32,18 @@ const intentDefinitions: IntentDefinition[] = [
   fallbackIntent,
 ];
 
-const toCfnIntent = (intent: IntentDefinition): lex.CfnBot.IntentProperty => {
-  const slots = intent.slots?.map(toCfnSlot);
+const toCfnIntent = ({
+  slots,
+  sampleUtterances,
+  ...intent
+}: IntentDefinition): lex.CfnBot.IntentProperty => {
 
   return {
-    name: intent.name,
-    description: intent.description,
-    ...(intent.sampleUtterances.length > 0
-      ? { sampleUtterances: intent.sampleUtterances.map((utterance) => ({ utterance })) }
+    ...intent,
+    ...(sampleUtterances?.length
+      ? { sampleUtterances }
       : {}),
-    ...(slots && slots.length > 0
+    ...(slots?.length
       ? {
           slots,
           slotPriorities: slots.map((slot, index) => ({
@@ -50,9 +51,6 @@ const toCfnIntent = (intent: IntentDefinition): lex.CfnBot.IntentProperty => {
             slotName: slot.name,
           })),
         }
-      : {}),
-    ...(intent.parentIntentSignature
-      ? { parentIntentSignature: intent.parentIntentSignature }
       : {}),
     fulfillmentCodeHook: { enabled: true },
   };

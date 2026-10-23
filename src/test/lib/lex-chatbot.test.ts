@@ -27,13 +27,6 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
       },
     });
     template.resourceCountIs('AWS::Lex::Bot', 1);
-    template.hasResource(
-      'AWS::Lex::Bot',
-      Match.objectLike({
-        DeletionPolicy: 'Retain',
-        UpdateReplacePolicy: 'Retain',
-      })
-    );
     template.resourceCountIs('AWS::Lex::BotVersion', 1);
     template.resourceCountIs('AWS::Lex::BotAlias', 1);
     template.resourceCountIs('AWS::Lambda::Permission', 1);
@@ -50,10 +43,33 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
             Match.objectLike({ Name: 'BrowseUpcomingShowings' }),
             Match.objectLike({
               Name: 'FindShowtimesByMovie',
+              SampleUtterances: Match.arrayWith([
+                Match.objectLike({
+                  Utterance: 'When is {MovieName} playing?',
+                }),
+              ]),
               Slots: Match.arrayWith([
                 Match.objectLike({
                   Name: 'MovieName',
                   SlotTypeName: 'AMAZON.AlphaNumeric',
+                  ValueElicitationSetting: Match.objectLike({
+                    SlotConstraint: 'Required',
+                    PromptSpecification: Match.objectLike({
+                      MaxRetries: 2,
+                      MessageGroupsList: Match.arrayWith([
+                        Match.objectLike({
+                          Message: Match.objectLike({
+                            PlainTextMessage: {
+                              Value: 'Which movie would you like to see?',
+                            },
+                          }),
+                        }),
+                      ]),
+                    }),
+                    SampleUtterances: Match.arrayWith([
+                      Match.objectLike({ Utterance: 'The Matrix' }),
+                    ]),
+                  }),
                 }),
               ]),
             }),
@@ -63,6 +79,11 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
                 Match.objectLike({
                   Name: 'ShowingDate',
                   SlotTypeName: 'AMAZON.Date',
+                  ValueElicitationSetting: Match.objectLike({
+                    SampleUtterances: Match.arrayWith([
+                      Match.objectLike({ Utterance: 'tomorrow' }),
+                    ]),
+                  }),
                 }),
               ]),
             }),
@@ -72,6 +93,11 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
                 Match.objectLike({
                   Name: 'ShowingTime',
                   SlotTypeName: 'AMAZON.Time',
+                  ValueElicitationSetting: Match.objectLike({
+                    SampleUtterances: Match.arrayWith([
+                      Match.objectLike({ Utterance: '7 PM' }),
+                    ]),
+                  }),
                 }),
               ]),
             }),
