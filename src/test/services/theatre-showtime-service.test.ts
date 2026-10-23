@@ -130,6 +130,53 @@ describe('TheatreShowtimeService', () => {
     });
   });
 
+  it('matches movie titles despite case and punctuation differences', async () => {
+    const avengersMovie: TheatreMovie = {
+      movieId: 606,
+      title: 'Avengers: Endgame',
+      visible: true,
+      isComingSoon: false,
+      showtimes: {
+        Friday: [{ screen: '1', time: '12:00' }],
+      },
+    };
+    const service = new TheatreShowtimeService({
+      getMovies: async () => [avengersMovie],
+    });
+
+    for (const query of ['avengers: ENdGame', 'avengers endgame']) {
+      const result = await service.getShowingsForMovie(query, now);
+
+      if (result.kind !== 'showtimes') {
+        throw new Error(`Expected a movie match for "${query}".`);
+      }
+
+      expect(result.movieTitle).toBe('Avengers: Endgame');
+    }
+  });
+
+  it('ignores diacritic marks when matching movie titles', async () => {
+    const pokemonMovie: TheatreMovie = {
+      movieId: 707,
+      title: 'Pokémon',
+      visible: true,
+      isComingSoon: false,
+      showtimes: {
+        Friday: [{ screen: '1', time: '12:00' }],
+      },
+    };
+    const service = new TheatreShowtimeService({
+      getMovies: async () => [pokemonMovie],
+    });
+    const result = await service.getShowingsForMovie('pokemon', now);
+
+    if (result.kind !== 'showtimes') {
+      throw new Error('Expected a movie match without diacritic marks.');
+    }
+
+    expect(result.movieTitle).toBe('Pokémon');
+  });
+
   it('reports ambiguous partial movie matches instead of choosing arbitrarily', async () => {
     const result = await createService().getShowingsForMovie('The Example', now);
 

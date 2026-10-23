@@ -1,11 +1,11 @@
 import type { TheatreShowtimeOccurrence } from '../../../../../lib/interfaces/backend/TheatreShowtimeOccurrence';
-import { formatShowtimeRows } from '../../services/showtime-message-formatting';
+import { formatMovieBullets } from '../../services/showtime-message-formatting';
 
 export const FIND_SHOWTIMES_BY_DATE_RESULTS_PROMPT = (
   showingDate: string,
   showings: readonly TheatreShowtimeOccurrence[]
 ): string =>
-  `Showtimes for ${showingDate}:\n${formatShowtimeRows(showings)}`;
+  `Showtimes for ${showingDate}:\n${formatMovieBullets(showings)}`;
 
 export const FIND_SHOWTIMES_BY_DATE_NO_SHOWINGS_PROMPT = (
   showingDate: string

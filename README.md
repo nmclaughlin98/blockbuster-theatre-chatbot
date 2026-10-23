@@ -55,7 +55,7 @@ The `en_GB` Lex locale includes these intents:
 - `ViewMyBookings` — reserved for future account-linked booking lookup; login and booking access are not implemented.
 - `FallbackIntent` — handles requests outside the supported intents.
 
-The fulfillment Lambda reads the public, paginated `GET /movies` endpoint from the theatre backend and uses its movie catalogue and weekday showtime schedules to answer browsing and search intents. Upcoming searches cover the next seven days; date-based searches map the requested calendar date to the backend's weekday schedule. The `THEATRE_BACKEND_API_URL` Lambda environment variable defaults to `https://api.blockbuster-theatre.nml-applications.com`.
+The fulfillment Lambda reads the public, paginated `GET /movies` endpoint from the theatre backend and uses its movie catalogue and weekday showtime schedules to answer browsing and search intents. Movie matching is handled in the Lambda: it ignores case, punctuation, and diacritic marks, then uses the canonical title from the backend. Upcoming searches cover the next seven days; date-based searches map the requested calendar date to the backend's weekday schedule. The `THEATRE_BACKEND_API_URL` Lambda environment variable defaults to `https://api.blockbuster-theatre.nml-applications.com`.
 
 Intent examples use the Lex V2 `SampleUtterance` object shape, and each required slot has a prompt plus sample responses in `valueElicitationSetting.sampleUtterances`. `MovieName` uses `AMAZON.AlphaNumeric` because Lex does not allow `AMAZON.FreeFormInput` in intent sample utterances. Its example titles help slot recognition only; they do not limit searches to a fixed catalogue, which is fetched from the backend.
 

@@ -126,12 +126,8 @@ describe('Lex fulfillment handler', () => {
           contentType: 'PlainText',
           content:
             'Upcoming showtimes for the next 7 days:\n' +
-            'Fri, 23 Oct 2026 — The Example Movie: 11:30 (Screen 2)\n' +
-            'Fri, 23 Oct 2026 — Another Film: 19:30 (Screen 4)\n' +
-            'Fri, 23 Oct 2026 — The Example Movie: 19:30 (Screen 3)\n' +
-            'Sat, 24 Oct 2026 — The Example Movie: 13:00 (Screen 2)\n' +
-            'Sat, 24 Oct 2026 — Another Film: 19:00 (Screen 5)\n' +
-            'Sat, 24 Oct 2026 — The Example Movie: 19:00 (Screen 3)',
+            '- Another Film\n' +
+            '- The Example Movie',
         },
       ],
     });
@@ -158,7 +154,7 @@ describe('Lex fulfillment handler', () => {
         {
           content:
             'Showtimes for The Example Movie on tomorrow at 7 PM:\n' +
-            'Sat, 24 Oct 2026 — The Example Movie: 19:00 (Screen 3)',
+            '- The Example Movie',
         },
       ],
     });
@@ -200,14 +196,20 @@ describe('Lex fulfillment handler', () => {
     });
   });
 
-  it('returns a fallback response for unrecognized intents', async () => {
-    await expect(handler(eventFor('UnknownIntent'))).resolves.toMatchObject({
-      messages: [
-        {
-          content:
-            'I can help with upcoming showings and searches by movie, date, or time. Booking lookup is not available yet.',
-        },
-      ],
-    });
+  it('randomly prefixes fallback responses with a common greeting', async () => {
+    jest
+      .spyOn(Math, 'random')
+      .mockReturnValueOnce(0)
+      .mockReturnValueOnce(0.99);
+
+    const firstResponse = await handler(eventFor('UnknownIntent'));
+    const secondResponse = await handler(eventFor('UnknownIntent'));
+
+    expect(firstResponse.messages[0].content).toBe(
+      'Hello! I can help with upcoming showings and searches by movie, date, or time. Booking lookup is not available yet.'
+    );
+    expect(secondResponse.messages[0].content).toBe(
+      'Good to see you! I can help with upcoming showings and searches by movie, date, or time. Booking lookup is not available yet.'
+    );
   });
 });

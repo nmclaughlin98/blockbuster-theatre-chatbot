@@ -4,6 +4,6 @@ import { FALLBACK_INTENT_DEFAULT_PROMPT } from './messageTemplates';
 export class FallbackIntentHandler implements LexIntentHandler {
   handle(): string {
 
-    return FALLBACK_INTENT_DEFAULT_PROMPT;
+    return FALLBACK_INTENT_DEFAULT_PROMPT();
   }
 }

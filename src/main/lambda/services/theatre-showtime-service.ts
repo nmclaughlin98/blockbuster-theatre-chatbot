@@ -187,6 +187,7 @@ function normalizeTitle(title: string): string {
 
   return title
     .normalize('NFKD')
+    .replace(/\p{M}/gu, '')
     .toLocaleLowerCase('en-GB')
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim();
