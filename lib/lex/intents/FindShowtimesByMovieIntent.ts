@@ -8,7 +8,7 @@ export const findShowtimesByMovieIntent: IntentDefinition = {
     { utterance: 'When is {MovieName} playing?' },
     { utterance: 'Show me showtimes for {MovieName}' },
     { utterance: 'What times is {MovieName} showing?' },
-    { utterance: 'When can I watch {MovieName}?' },
+    { utterance: 'When can I watch {MovieName}' },
     { utterance: 'Is {MovieName} showing?' },
   ],
   slots: [movieNameSlot],

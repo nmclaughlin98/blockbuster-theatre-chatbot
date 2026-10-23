@@ -127,6 +127,37 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
     });
   });
 
+  it('separates Lex slot placeholders from adjacent characters', () => {
+    type IntentSample = {
+      SampleUtterances?: Array<{ Utterance: string }>;
+    };
+    type SynthesizedResource = {
+      Type?: string;
+      Properties?: {
+        BotLocales?: Array<{
+          Intents?: IntentSample[];
+        }>;
+      };
+    };
+    const resources = createTemplate().toJSON().Resources as Record<
+      string,
+      SynthesizedResource
+    >;
+    const bot = Object.values(resources).find(
+      (resource) => resource.Type === 'AWS::Lex::Bot'
+    );
+    const intents =
+      bot?.Properties?.BotLocales?.flatMap((locale) => locale.Intents ?? []) ?? [];
+
+    expect(bot).toBeDefined();
+
+    for (const intent of intents) {
+      for (const sample of intent.SampleUtterances ?? []) {
+        expect(sample.Utterance).not.toMatch(/[^\s]\{[^}]+\}|\{[^}]+\}[^\s]/);
+      }
+    }
+  });
+
   it('configures the alias to invoke the fulfillment Lambda and grants Lex permission', () => {
     const template = createTemplate();
 
