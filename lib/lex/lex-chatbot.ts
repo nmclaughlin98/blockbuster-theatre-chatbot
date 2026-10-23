@@ -17,11 +17,7 @@ export class LexChatbotConstruct extends Construct {
     super(scope, id);
 
     const lexServiceRole = new iam.Role(this, 'LexServiceRole', {
-      assumedBy: new iam.ServicePrincipal('lexv2.amazonaws.com').withConditions({
-        StringEquals: {
-          'aws:SourceAccount': cdk.Stack.of(this).account,
-        },
-      }),
+      assumedBy: new iam.ServicePrincipal('lexv2.amazonaws.com'),
     });
     const lexLogGroupArn = cdk.Stack.of(this).formatArn({
       service: 'logs',

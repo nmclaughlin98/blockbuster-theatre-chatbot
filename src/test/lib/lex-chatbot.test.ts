@@ -149,7 +149,7 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
     expect(botAlias?.[1].DependsOn).toContain(lambdaPermission?.[0]);
   });
 
-  it('scopes the Lex service role trust and CloudWatch log permissions', () => {
+  it('trusts the Lex service principal and scopes CloudWatch log permissions', () => {
     const template = createTemplate();
 
     template.hasResourceProperties('AWS::IAM::Role', {
@@ -157,11 +157,6 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
         Statement: Match.arrayWith([
           Match.objectLike({
             Action: 'sts:AssumeRole',
-            Condition: {
-              StringEquals: {
-                'aws:SourceAccount': { Ref: 'AWS::AccountId' },
-              },
-            },
             Effect: 'Allow',
             Principal: { Service: 'lexv2.amazonaws.com' },
           }),
@@ -185,7 +180,10 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
       Type?: string;
       Properties?: {
         AssumeRolePolicyDocument?: {
-          Statement?: Array<{ Principal?: { Service?: string } }>;
+          Statement?: Array<{
+            Condition?: unknown;
+            Principal?: { Service?: string };
+          }>;
         };
         ManagedPolicyArns?: unknown;
         PolicyDocument?: unknown;
@@ -200,11 +198,16 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
         (statement) => statement.Principal?.Service === 'lexv2.amazonaws.com'
       )
     );
+    const lexTrustStatement =
+      lexRole?.Properties?.AssumeRolePolicyDocument?.Statement?.find(
+        (statement) => statement.Principal?.Service === 'lexv2.amazonaws.com'
+      );
     const lexPolicy = resources.find((resource) =>
       resource.Type === 'AWS::IAM::Policy' &&
       (JSON.stringify(resource.Properties?.PolicyDocument) ?? '').includes('logs:CreateLogGroup')
     );
 
+    expect(lexTrustStatement?.Condition).toBeUndefined();
     expect(lexRole?.Properties?.ManagedPolicyArns).toBeUndefined();
     expect(JSON.stringify(lexPolicy?.Properties?.PolicyDocument) ?? '').toContain(
       'log-group:/aws/lex/*'

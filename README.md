@@ -39,7 +39,7 @@ npx cdk bootstrap
 npm run deploy
 ```
 
-Review the synthesized template before deploying to an AWS account. The GitHub Actions deployment workflow is manual and expects an `AWS_DEPLOY_ROLE_ARN` repository secret configured for OIDC, plus an optional `AWS_REGION` repository variable.
+Review the synthesized template before deploying to an AWS account. GitHub Actions automatically deploys after the `1. Build and Test` workflow succeeds for a push to `main`; pull requests and other branches do not auto-deploy. Manual deployment remains available through `workflow_dispatch`. The deploy workflow uses GitHub OIDC and the AWS role and region configured in `.github/workflows/deploy.yml`.
 The AWS deployment role is configured outside this repository; its policy should scope `iam:PassRole` to the Lex service role created by this stack, and its OIDC trust should be restricted to the intended GitHub repository and environment.
 
 ## Chatbot functionality
@@ -69,7 +69,7 @@ The Lex bot is configured as not child-directed (`childDirected: false`). Review
 
 The Lex bot uses CloudFormation `Retain` policies for deletion and replacement so a failed deployment can leave it available for diagnosis. Retained bots may need to be deleted manually after debugging.
 
-The Lex service role trusts the Lex V2 service only when the request originates from this AWS account. Its CloudWatch Logs permissions are limited to log groups under `/aws/lex/`; it does not use an unverified AWS-managed Lex policy.
+The Lex service role trusts the `lexv2.amazonaws.com` service principal so Lex can assume it. Its CloudWatch Logs permissions are limited to log groups under `/aws/lex/`; it does not use an unverified AWS-managed Lex policy.
 
 ## Project layout
 
@@ -81,7 +81,7 @@ The Lex service role trusts the Lex V2 service only when the request originates 
 - `src/main/lambda/intent-handlers/` — per-intent fulfillment classes and response templates
 - `src/main/lambda/services/` — backend API client and showtime search logic
 - `src/test/` — handler and CDK infrastructure tests
-- `.github/workflows/` — build and manual deployment workflows
+- `.github/workflows/` — build, test, and automatic deployment workflows
 
 ## Extending this stack
 
