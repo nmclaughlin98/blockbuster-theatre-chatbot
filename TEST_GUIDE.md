@@ -8,8 +8,8 @@ npm test
 
 The suite contains:
 
-- Handler unit tests in `src/test/handlers/`
-- CDK template assertions in `src/test/lib/`
+- Lex fulfillment handler unit tests in `src/test/handlers/`
+- CDK Lex bot, alias, Lambda, and intent template assertions in `src/test/lib/`
 
 Generate a coverage report with:
 
