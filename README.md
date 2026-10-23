@@ -67,6 +67,8 @@ The stack outputs the Lex bot ID, alias ID, alias ARN, and locale ID. A text cli
 
 The Lex bot is configured as not child-directed (`childDirected: false`). Review and change this setting before deployment if the website is directed at children under 13 or is otherwise subject to COPPA.
 
+The Lex bot uses CloudFormation `Retain` policies for deletion and replacement so a failed deployment can leave it available for diagnosis. Retained bots may need to be deleted manually after debugging.
+
 The Lex service role trusts the Lex V2 service only when the request originates from this AWS account. Its CloudWatch Logs permissions are limited to log groups under `/aws/lex/`; it does not use an unverified AWS-managed Lex policy.
 
 ## Project layout

@@ -77,6 +77,8 @@ export class LexChatbotConstruct extends Construct {
         },
       ],
     });
+    this.bot.cfnOptions.deletionPolicy = cdk.CfnDeletionPolicy.RETAIN;
+    this.bot.cfnOptions.updateReplacePolicy = cdk.CfnDeletionPolicy.RETAIN;
 
     const botVersion = new lex.CfnBotVersion(this, 'BotVersion', {
       botId: this.bot.ref,

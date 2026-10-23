@@ -27,6 +27,13 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
       },
     });
     template.resourceCountIs('AWS::Lex::Bot', 1);
+    template.hasResource(
+      'AWS::Lex::Bot',
+      Match.objectLike({
+        DeletionPolicy: 'Retain',
+        UpdateReplacePolicy: 'Retain',
+      })
+    );
     template.resourceCountIs('AWS::Lex::BotVersion', 1);
     template.resourceCountIs('AWS::Lex::BotAlias', 1);
     template.resourceCountIs('AWS::Lambda::Permission', 1);
