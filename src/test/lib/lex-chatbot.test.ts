@@ -1,11 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { ApplicationStack } from '../../../lib/stack-configuration';
+import { BlockbusterTheatreChatbotStack } from '../../../lib/stack-configuration';
 
 describe('Blockbuster Theatre Lex chatbot stack', () => {
   const createTemplate = (): Template => {
     const app = new cdk.App();
-    const stack = new ApplicationStack(app, 'TestStack');
+    const stack = new BlockbusterTheatreChatbotStack(app, 'TestStack');
 
     return Template.fromStack(stack);
   };

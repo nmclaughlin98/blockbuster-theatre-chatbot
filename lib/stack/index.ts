@@ -1,1 +1,1 @@
-export { ApplicationStack } from '../stack-configuration';
+export { BlockbusterTheatreChatbotStack } from '../stack-configuration';
