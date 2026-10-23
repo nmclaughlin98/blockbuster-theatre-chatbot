@@ -6,7 +6,7 @@ export class ApplicationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    cdk.Tags.of(this).add('Project', 'TEMPLATE_REPO_NAME');
+    cdk.Tags.of(this).add('Project', 'blockbuster-theatre-chatbot');
 
     const lambda = new LambdaConstruct(this, 'ExampleLambda');
 

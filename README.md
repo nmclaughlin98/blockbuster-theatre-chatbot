@@ -1,20 +1,63 @@
-# AWS CDK TypeScript Template Repository
+# blockbuster-theatre-chatbot
 
-This repository is a GitHub template for creating AWS CDK applications in TypeScript with a Node.js Lambda example.
+A minimal AWS CDK application written in TypeScript. It deploys one Node.js 24 Lambda function and includes unit tests for both the handler and the synthesized infrastructure.
 
-## Create a project
+Repository: https://github.com/nmclaughlin98/blockbuster-theatre-chatbot
 
-1. Select **Use this template** and create a new repository.
-2. Create a fine-grained personal access token limited to the new repository, with **Contents: Read and write** and **Workflows: Read and write** permissions. Add it to the new repository as the Actions secret `TEMPLATE_INIT_TOKEN`.
-3. Rerun the failed **Initialise Repository from Template** workflow from the Actions tab. The initial push starts the workflow, but GitHub requires the token to promote files under `.github/workflows/`.
-4. Keep the new repository's default branch named `main`.
+## Requirements
 
-The workflow replaces `TEMPLATE_REPO_NAME` and `TEMPLATE_OWNER` in the staged project, promotes all files—including hidden files—from `template/` to the repository root, and removes the staging directory and this meta README. It commits the initialized project to `main`, then removes itself in a second commit.
+- Node.js 24 or newer
+- npm
+- AWS credentials and a configured region to deploy
+- AWS CDK bootstrapped in the target account and region
 
-The workflow intentionally skips this source repository: `nmclaughlin98/aws-cdk-template-typescript`.
+## Getting started
 
-## Staged project
+Install dependencies and compile the project:
 
-The complete CDK project boilerplate is in [`template/`](./template/). It includes the CDK stack, Node.js 24 Lambda handler, tests, package configuration, project documentation, and build/deploy workflows. After initialization, its own README and setup instructions are at the repository root.
+```bash
+npm ci
+npm run build
+```
 
-If the generated repository protects `main`, allow GitHub Actions to push to that branch before rerunning the initializer, or the promotion will be rejected.
+Run the tests:
+
+```bash
+npm test
+```
+
+Synthesize the CloudFormation template without deploying:
+
+```bash
+npm run synth
+```
+
+Deploy the stack:
+
+```bash
+npx cdk bootstrap
+npm run deploy
+```
+
+Review the synthesized template before deploying to an AWS account. The GitHub Actions deployment workflow is manual and expects an `AWS_DEPLOY_ROLE_ARN` repository secret configured for OIDC, plus an optional `AWS_REGION` repository variable.
+
+## Example Lambda
+
+The example handler returns a greeting, using `World` when no name is supplied. Invoke it with an event such as:
+
+```json
+{
+  "name": "Ada"
+}
+```
+
+## Project layout
+
+- `lib/stack/` — CDK app and stack entry points
+- `src/main/lambda/` — Lambda construct and handler
+- `src/test/` — handler and CDK infrastructure tests
+- `.github/workflows/` — build and manual deployment workflows
+
+## Extending this stack
+
+Add application-specific infrastructure in `lib/stack/`, runtime code in `src/main/lambda/handlers/`, and corresponding tests in `src/test/`.
