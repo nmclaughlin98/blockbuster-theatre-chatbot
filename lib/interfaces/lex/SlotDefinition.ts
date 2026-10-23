@@ -1,5 +1,5 @@
 export type BuiltInSlotTypeName =
-  | 'AMAZON.FreeFormInput'
+  | 'AMAZON.AlphaNumeric'
   | 'AMAZON.Date'
   | 'AMAZON.Time';
 

@@ -57,6 +57,8 @@ The `en_US` Lex locale includes these intents:
 
 The fulfillment Lambda reads the public, paginated `GET /movies` endpoint from the theatre backend and uses its movie catalogue and weekday showtime schedules to answer browsing and search intents. Upcoming searches cover the next seven days; date-based searches map the requested calendar date to the backend's weekday schedule. The `THEATRE_BACKEND_API_URL` Lambda environment variable defaults to `https://api.blockbuster-theatre.nml-applications.com`.
 
+The `MovieName` slot uses `AMAZON.AlphaNumeric` because Lex does not allow `AMAZON.FreeFormInput` in intent sample utterances.
+
 Only the login-dependent `ViewMyBookings` intent remains a placeholder. It will need customer authentication and a backend booking lookup endpoint before it can return personal booking data.
 
 ## Website integration

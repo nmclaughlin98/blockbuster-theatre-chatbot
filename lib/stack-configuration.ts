@@ -8,7 +8,7 @@ export class ApplicationStack extends cdk.Stack {
 
     cdk.Tags.of(this).add('Project', 'blockbuster-theatre');
 
-    const chatbot = new LexChatbotConstruct(this, 'TheatreChatbot');
+    const chatbot = new LexChatbotConstruct(this, 'BlockbusterTheatreChatbot');
 
     new cdk.CfnOutput(this, 'BotId', {
       value: chatbot.bot.ref,

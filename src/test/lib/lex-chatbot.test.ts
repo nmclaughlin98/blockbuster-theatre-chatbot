@@ -46,7 +46,7 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
               Slots: Match.arrayWith([
                 Match.objectLike({
                   Name: 'MovieName',
-                  SlotTypeName: 'AMAZON.FreeFormInput',
+                  SlotTypeName: 'AMAZON.AlphaNumeric',
                 }),
               ]),
             }),
