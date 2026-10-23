@@ -1,0 +1,7 @@
+/node_modules/
+/coverage/
+/app/
+/cdk-out/
+/cdk.out/
+/dist/
+node_modules
