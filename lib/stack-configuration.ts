@@ -24,7 +24,7 @@ export class ApplicationStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, 'BotLocaleId', {
-      value: 'en_US',
+      value: 'en_GB',
       description: 'Locale configured for the chatbot',
     });
 

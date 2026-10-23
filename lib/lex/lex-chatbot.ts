@@ -70,8 +70,8 @@ export class LexChatbotConstruct extends Construct {
       errorLogSettings: { enabled: true },
       botLocales: [
         {
-          localeId: 'en_US',
-          description: 'English (United States)',
+          localeId: 'en_GB',
+          description: 'English (Great Britain)',
           nluConfidenceThreshold: 0.4,
           intents: theatreIntents,
         },
@@ -83,7 +83,7 @@ export class LexChatbotConstruct extends Construct {
       description: 'Initial Blockbuster Theatre chatbot version.',
       botVersionLocaleSpecification: [
         {
-          localeId: 'en_US',
+          localeId: 'en_GB',
           botVersionLocaleDetails: { sourceBotVersion: 'DRAFT' },
         },
       ],
@@ -96,7 +96,7 @@ export class LexChatbotConstruct extends Construct {
       botVersion: botVersion.attrBotVersion,
       botAliasLocaleSettings: [
         {
-          localeId: 'en_US',
+          localeId: 'en_GB',
           botAliasLocaleSetting: {
             enabled: true,
             codeHookSpecification: {

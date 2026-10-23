@@ -44,7 +44,7 @@ The AWS deployment role is configured outside this repository; its policy should
 
 ## Chatbot functionality
 
-The `en_US` Lex locale includes these intents:
+The `en_GB` Lex locale includes these intents:
 
 - `BrowseUpcomingShowings` — browse upcoming movies and showings.
 - `FindShowtimesByMovie` — search by movie title (`MovieName`).
