@@ -6,7 +6,7 @@ export class ApplicationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    cdk.Tags.of(this).add('Project', 'blockbuster-theatre-chatbot');
+    cdk.Tags.of(this).add('Project', 'blockbuster-theatre');
 
     const chatbot = new LexChatbotConstruct(this, 'TheatreChatbot');
 

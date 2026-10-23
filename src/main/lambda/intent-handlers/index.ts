@@ -21,8 +21,8 @@ const intentHandlers: LexIntentHandlerMap = {
   FallbackIntent: fallbackIntentHandler,
 };
 
-export const getIntentMessage = (event: LexFulfillmentEvent): string => {
+export const getIntentMessage = async (event: LexFulfillmentEvent): Promise<string> => {
   const intentHandler = intentHandlers[event.sessionState.intent.name] ?? fallbackIntentHandler;
 
-  return intentHandler.handle(event);
+  return await intentHandler.handle(event);
 };

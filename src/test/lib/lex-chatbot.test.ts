@@ -18,7 +18,13 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
       Handler: 'index.handler',
       Runtime: 'nodejs24.x',
       MemorySize: 256,
-      Timeout: 10,
+      Timeout: 20,
+      Environment: {
+        Variables: {
+          THEATRE_BACKEND_API_URL:
+            'https://api.blockbuster-theatre.nml-applications.com',
+        },
+      },
     });
     template.resourceCountIs('AWS::Lex::Bot', 1);
     template.resourceCountIs('AWS::Lex::BotVersion', 1);

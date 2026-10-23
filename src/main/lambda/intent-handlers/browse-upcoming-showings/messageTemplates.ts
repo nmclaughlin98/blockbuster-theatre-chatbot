@@ -1,2 +1,13 @@
-export const BROWSE_UPCOMING_SHOWINGS_DEFAULT_PROMPT =
-  'I can help you browse upcoming showings, but the live theatre schedule is not connected yet.';
+import type { TheatreShowtimeOccurrence } from '../../../../../lib/interfaces/backend/TheatreShowtimeOccurrence';
+import { formatShowtimeRows } from '../../services/showtime-message-formatting';
+
+export const BROWSE_UPCOMING_SHOWINGS_RESULTS_PROMPT = (
+  showings: readonly TheatreShowtimeOccurrence[]
+): string =>
+  `Upcoming showtimes for the next 7 days:\n${formatShowtimeRows(showings)}`;
+
+export const BROWSE_UPCOMING_SHOWINGS_NO_SHOWINGS_PROMPT =
+  'No showtimes were found for the next 7 days.';
+
+export const BROWSE_UPCOMING_SHOWINGS_BACKEND_ERROR_PROMPT =
+  'I could not retrieve showtimes right now. Please try again later.';

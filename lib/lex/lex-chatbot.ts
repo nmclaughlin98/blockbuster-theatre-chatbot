@@ -53,6 +53,11 @@ export class LexChatbotConstruct extends Construct {
       runtime: lambdaSettings.runtime,
       memorySize: lambdaSettings.memorySize,
       timeout: cdk.Duration.seconds(lambdaSettings.timeoutSeconds),
+      environment: {
+        THEATRE_BACKEND_API_URL:
+          process.env.THEATRE_BACKEND_API_URL ??
+          'https://api.blockbuster-theatre.nml-applications.com',
+      },
     });
 
     this.bot = new lex.CfnBot(this, 'Bot', {
