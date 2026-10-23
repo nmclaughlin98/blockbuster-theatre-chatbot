@@ -110,16 +110,21 @@ export class LexChatbotConstruct extends Construct {
       ],
     });
 
-    new lambda.CfnPermission(this, 'AllowLexInvokeFulfillment', {
-      action: 'lambda:InvokeFunction',
-      functionName: this.fulfillmentFunction.functionArn,
-      principal: 'lexv2.amazonaws.com',
-      sourceArn: cdk.Stack.of(this).formatArn({
-        service: 'lex',
-        resource: 'bot-alias',
-        resourceName: `${this.bot.ref}/*`,
-        arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-      }),
-    });
+    const allowLexInvokeFulfillment = new lambda.CfnPermission(
+      this,
+      'AllowLexInvokeFulfillment',
+      {
+        action: 'lambda:InvokeFunction',
+        functionName: this.fulfillmentFunction.functionArn,
+        principal: 'lexv2.amazonaws.com',
+        sourceArn: cdk.Stack.of(this).formatArn({
+          service: 'lex',
+          resource: 'bot-alias',
+          resourceName: `${this.bot.ref}/*`,
+          arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+        }),
+      }
+    );
+    this.botAlias.addResourceDependency(allowLexInvokeFulfillment);
   }
 }

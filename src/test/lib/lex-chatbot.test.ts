@@ -121,6 +121,25 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
         'Fn::Join': Match.anyValue(),
       },
     });
+
+    type ResourceWithDependencies = {
+      Type?: string;
+      DependsOn?: string | string[];
+    };
+    const resources = template.toJSON().Resources as Record<
+      string,
+      ResourceWithDependencies
+    >;
+    const botAlias = Object.entries(resources).find(
+      ([, resource]) => resource.Type === 'AWS::Lex::BotAlias'
+    );
+    const lambdaPermission = Object.entries(resources).find(
+      ([, resource]) => resource.Type === 'AWS::Lambda::Permission'
+    );
+
+    expect(botAlias).toBeDefined();
+    expect(lambdaPermission).toBeDefined();
+    expect(botAlias?.[1].DependsOn).toContain(lambdaPermission?.[0]);
   });
 
   it('scopes the Lex service role trust and CloudWatch log permissions', () => {
