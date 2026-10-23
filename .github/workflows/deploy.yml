@@ -24,11 +24,12 @@ jobs:
         run: npm ci
 
       - name: Configure AWS Credentials
+        id: configure_aws
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          aws-region: ${{ vars.AWS_REGION || 'eu-west-2' }}
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-          role-session-name: cdk-deploy
+          aws-region: eu-west-2
+          role-to-assume: arn:aws:iam::334624057595:role/blockbuster-theatre-backend-github-deploy-role
+          role-session-name: bb-theatre-gh-actions-deploy
 
       - name: Deploy CDK Stack
         run: npm run deploy -- --require-approval never
