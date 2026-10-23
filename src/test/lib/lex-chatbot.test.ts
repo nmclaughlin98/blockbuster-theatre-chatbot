@@ -38,7 +38,7 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
     template.hasResourceProperties('AWS::Lex::Bot', {
       BotLocales: Match.arrayWith([
         Match.objectLike({
-          LocaleId: 'en_US',
+          LocaleId: 'en_GB',
           Intents: Match.arrayWith([
             Match.objectLike({ Name: 'BrowseUpcomingShowings' }),
             Match.objectLike({
@@ -101,7 +101,7 @@ describe('Blockbuster Theatre Lex chatbot stack', () => {
       BotAliasName: 'Live',
       BotAliasLocaleSettings: Match.arrayWith([
         Match.objectLike({
-          LocaleId: 'en_US',
+          LocaleId: 'en_GB',
           BotAliasLocaleSetting: Match.objectLike({
             Enabled: true,
             CodeHookSpecification: Match.objectLike({
